@@ -10,27 +10,26 @@
 
 EvoBot est un robot éducatif **open-source** et **DIY** conçu dans le cadre du Master Spécialisé en *Systèmes Intelligents pour l'Éducation* de l'École Normale Supérieure de Meknès.
 
-### 🎯 Objectifs
-- ✅ Conception CAO paramétrique sous **FreeCAD**
-- ✅ Fabrication additive via impression **3D (FDM)**
-- ✅ Intégration électronique complète (capteurs + actionneurs)
-- ✅ Intelligence artificielle séquentielle basée sur une **Machine à États (FSM)**
-- ✅ Alternative open-hardware au **Thymio II** (budget < 500 MAD)
+### Objectifs
+- Conception CAO paramétrique sous **FreeCAD**
+- Fabrication additive via impression **3D (FDM)**
+- Intégration électronique complète (capteurs + actionneurs)
+- Intelligence artificielle séquentielle basée sur une **Machine à États (FSM)**
+- Alternative open-hardware au **Thymio II** (budget < 500 MAD)
 
 ---
 
-## 📋 Équipe de Réalisation
+## Équipe de Réalisation
 
-| Rôle | Personne |
-|------|----------|
-| **Réalisateurs** | MOUSSAID Hicham, EL HANINE Amine |
-| **Encadrant** | Pr. Ahmed REGRAGUI |
-| **Institution** | École Normale Supérieure, Meknès |
-| **Année** | 2025-2026 |
+| Rôle | Personne | Dépôt GitHub |
+|------|----------|--------------|
+| **Réalisateur** | MOUSSAID Hicham | [moussaidhicham/EvoBot-Educational-Robot](https://github.com/moussaidhicham/EvoBot-Educational-Robot) |
+| **Réalisateur** | EL HANINE Amine | [L7A9/evobot](https://github.com/L7A9/evobot) |
+| **Encadrant** | Pr. Ahmed REGRAGUI | - |
 
 ---
 
-## 🤖 Spécifications Techniques
+## Spécifications Techniques
 
 ### Architecture Mécanique
 | Composant | Valeur |
@@ -76,7 +75,7 @@ EvoBot est un robot éducatif **open-source** et **DIY** conçu dans le cadre du
 - Capteur ultrasonique HC-SR04
 - Machine à états avec 4 transitions :
   - Avancer en ligne droite
-  - Détecter → Reculer → Tourner
+  - Détecter -> Reculer -> Tourner
   - Reprendre la marche
 
 **3. Mode Inactif (Idle)**
@@ -84,251 +83,106 @@ EvoBot est un robot éducatif **open-source** et **DIY** conçu dans le cadre du
 
 ---
 
-## 🛠️ Installation et Configuration
+## Installation et Configuration
 
 ### Prérequis
 - **VS Code** avec l'extension **PlatformIO**
-- **Arduino IDE** (optionnel)
+- **Arduino IDE** (optionnel - nécessite de copier `src/main.cpp`)
 - Compilateur AVR GCC (inclus dans PlatformIO)
 
 ### Clonage du Dépôt
 ```bash
+# Via le dépôt de Moussaid Hicham
 git clone https://github.com/moussaidhicham/EvoBot-Educational-Robot.git
-cd EvoBot-Educational-Robot
+
+# OU via le dépôt de El Hannine Amine
+git clone https://github.com/L7A9/evobot.git
 ```
 
 ### Configuration de l'Environnement
-1. Ouvrir le projet dans **VS Code**
+1. Ouvrir le dossier dans **VS Code**
 2. L'extension PlatformIO détectera automatiquement `platformio.ini`
 3. Sélectionner l'environnement : `Arduino Uno` (env:uno)
 
-### Compilation
-```bash
-# Via PlatformIO CLI
-pio run
-
-# Ou via VS Code : Ctrl+Shift+P > PlatformIO: Build
-```
-
-### Téléversement (Upload)
-```bash
-# Via PlatformIO CLI
-pio run -t upload
-
-# Ou via VS Code : Ctrl+Shift+P > PlatformIO: Upload
-```
+### Compilation et Téléversement
+Utilisez les icônes de la barre d'outils **PlatformIO** en bas de VS Code :
+- **Compiler** : Build
+- **Téléverser** : Upload
+- **Moniteur Série** : Serial Monitor
 
 ---
 
-## 📝 Structure du Projet
+## Alternative : Utilisation avec l'Arduino IDE
+
+Si vous préférez ne pas utiliser VS Code, il est tout à fait possible de compiler et téléverser le code via l'**Arduino IDE** classique, sans aucune installation supplémentaire :
+
+1.  Ouvrez l'**Arduino IDE**.
+2.  Copiez l'intégralité du contenu du fichier `src/main.cpp`.
+3.  Collez-le dans votre croquis (*sketch*) vide.
+4.  Dans le menu **Outils**, sélectionnez la carte **Arduino Uno**.
+5.  Cliquez sur le bouton **Téléverser**.
+
+> [!TIP]
+> Le code source est conçu pour être 100% autonome dans un seul fichier (`main.cpp`), ce qui garantit une compatibilité totale avec tous les éditeurs Arduino standards.
+
+---
+
+## Structure du Projet
 
 ```
 EvoBot-Educational-Robot/
 ├── src/
-│   └── main.cpp              # Code principal (281 lignes)
-├── include/                  # En-têtes personnalisés
-├── lib/                      # Bibliothèques locales
-├── test/                     # Tests unitaires
+│   └── main.cpp              # Code principal (firmware complet)
+├── include/                  # En-têtes et définitions
 ├── platformio.ini            # Configuration PlatformIO
-├── .gitignore               # Fichiers à ignorer
+├── .gitignore               # Fichiers à ignorer (LaTeX, .pio, etc.)
 └── README.md                # Ce fichier
 ```
 
 ---
 
-## 🔌 Schéma de Câblage
+## Câblage (Arduino Uno)
 
-### Assignation des Broches (Arduino Uno)
+### Entrées (Capteurs & Boutons)
+| Composant | Pin | Fonction |
+|-----------|-----|----------|
+| Bouton 1 | 3 | Mode Suivi de Ligne |
+| Bouton 2 | A0 | Mode Évitement |
+| IR Gauche | 2 | Détection Ligne |
+| IR Milieu | 4 | Détection Ligne |
+| IR Droit | 10 | Détection Ligne |
+| Trig (US) | A5 | Déclenchement Ultrason |
+| Echo (US) | A1 | Écho Ultrason |
 
-#### Capteurs (Entrées)
-| Capteur | Broche | Type |
-|---------|--------|------|
-| Bouton Mode 1 | 3 | Digital |
-| Bouton Mode 2 | A0 | Analog |
-| Capteur Ligne Gauche | 2 | Digital |
-| Capteur Ligne Milieu | 4 | Digital |
-| Capteur Ligne Droit | 10 | Digital |
-| HC-SR04 Trigger | A5 | Analog |
-| HC-SR04 Echo | A1 | Analog |
-
-#### Moteurs & Driver L298N (Sorties)
-| Moteur | Fonction | Broche | Type |
-|--------|----------|--------|------|
-| Moteur A (Gauche) | Enable (PWM) | 6 | PWM |
-| | Sens 1 | 11 | Digital |
-| | Sens 2 | 9 | Digital |
-| Moteur B (Droit) | Enable (PWM) | 5 | PWM |
-| | Sens 1 | 8 | Digital |
-| | Sens 2 | 7 | Digital |
-
-#### Alimentation
-- **Batterie 18650 (7.4V)** → L298N IN
-- **L298N GND** → Arduino GND
-- **L298N +5V** → Arduino 5V (via diode)
+### Sorties (Moteurs L298N)
+| Fonction | Pin | Type |
+|----------|-----|------|
+| ENA (Gauche) | 6 | PWM |
+| IN1 / IN2 | 11 / 9 | Direction Gauche |
+| ENB (Droit) | 5 | PWM |
+| IN3 / IN4 | 8 / 7 | Direction Droite |
 
 ---
 
-## 💾 Code Exemple
+## Résultats de Validation
 
-### Démarrage Rapide
-```cpp
-#include <Arduino.h>
-
-// Pins
-#define ENA 6
-#define IN1 11
-#define IN2 9
-#define SPEED 150
-
-void forward() {
-  digitalWrite(IN1, HIGH);
-  digitalWrite(IN2, LOW);
-  analogWrite(ENA, SPEED);
-}
-
-void setup() {
-  pinMode(ENA, OUTPUT);
-  pinMode(IN1, OUTPUT);
-  pinMode(IN2, OUTPUT);
-}
-
-void loop() {
-  forward();
-  delay(1000);
-}
-```
-
-Pour le code complet avec machine à états, consultez [src/main.cpp](src/main.cpp).
+| Test | Résultat | Vitesse / Précision |
+|------|----------|---------------------|
+| Ligne droite | Succès | Trajectoire stable |
+| Suivi de ligne | Succès | ~30 cm/s |
+| Évitement | Succès | Seuil : 15 cm |
+| Autonomie | Succès | Batterie Li-ion 18650 |
 
 ---
 
-## 🧪 Tests et Validation
+## Licence
 
-### Tests Manuels
-- ✅ Avance en ligne droite
-- ✅ Rotation sur place (droite/gauche)
-- ✅ Détection d'obstacles (HC-SR04)
-- ✅ Suivi de ligne (3 capteurs IR)
-- ✅ Autonomie batterie : ~2 heures
-
-### Résultats
-| Test | Résultat | Notes |
-|------|----------|-------|
-| Ligne droite | ✅ Réussi | Moteurs équilibrés |
-| Suivi de ligne | ✅ Réussi | Vitesse : 30 cm/s |
-| Évitement | ✅ Réussi | Détection : 15-60 cm |
-| Batterie | ✅ 2h | Autonomie nominale |
+Ce projet est distribué sous la licence **MIT**. Vous êtes libres de l'utiliser, de le modifier et de le distribuer à des fins éducatives ou commerciales, sous réserve de citer les auteurs originaux.
 
 ---
 
-## ⚠️ Limitations et Problèmes Rencontrés
+## Remerciements
 
-1. **Limitation I/O Arduino Uno**
-   - Seulement 14 broches numériques disponibles
-   - Solution : Utilisation de broches analogiques (A0-A5)
+Nous remercions vivement **Pr. Ahmed REGRAGUI** pour son encadrement précieux et ses conseils durant ce module de robotique éducative au sein du Master SIE.
 
-2. **Butée des Capacités**
-   - 32 Ko Flash insufisants pour une IA complexe
-   - Solution : Machine à états simple et efficace
-
-3. **Dérive du Compass** (si intégré)
-   - Les moteurs créent des champs magnétiques parasites
-   - Solution : Placer les capteurs magnétiques loin des moteurs
-
-4. **Variation des Capteurs IR**
-   - Sensibilité à l'éclairage ambiant
-   - Solution : Recalibrage du potentiomètre par utilisateur
-
----
-
-## 🚀 Perspectives d'Amélioration
-
-### Court terme
-- [ ] Intégration d'un capteur de température
-- [ ] Ajout de servomoteurs pour bras articulé
-- [ ] Implémentation PID améliorée pour suivi de ligne
-
-### Moyen terme
-- [ ] Migration vers Arduino Mega (plus d'I/O)
-- [ ] Ajout de communication Bluetooth
-- [ ] Écran LCD pour feedback utilisateur
-
-### Long terme
-- [ ] Vision par caméra (OpenCV)
-- [ ] Navigation GPS
-- [ ] Apprentissage par renforcement (IA adaptative)
-
----
-
-## 📜 Licence
-
-Ce projet est distribué sous la licence **MIT**.
-
-**Vous êtes libres de :**
-- ✅ Utiliser le projet à titre commercial
-- ✅ Modifier et distribuer le code
-- ✅ Utiliser le design mécanique
-
-**À condition de :**
-- ⚠️ Inclure une copie de la licence et du copyright
-- ⚠️ Documenter les changements importants
-
-Pour plus de détails, consultez [LICENSE](LICENSE).
-
----
-
-## 📚 Ressources et Références
-
-### Documentation Officielle
-- [Arduino Uno Reference](https://www.arduino.cc/reference/en/)
-- [PlatformIO Docs](https://docs.platformio.org/)
-- [FreeCAD CAD Guide](https://www.freecadweb.org/wiki)
-
-### Datasheets
-- [ATmega328P](https://www.microchip.com/) - Microcontrôleur
-- [L298N Motor Driver](https://www.st.com/) - Pont-H
-- [HC-SR04 Ultrasonic](https://www.botnroll.com/) - Capteur distance
-- [18650 Li-ion Battery](https://www.samsung.com/) - Alimentation
-
-### Bibliographie (Rapport Complet)
-Consultez le document `RAPPORT_EvoBot_2025-2026.pdf` pour :
-- Étude mécanique détaillée
-- Schémas électroniques complets
-- Algorithmes détaillés
-- Résultats expérimentaux
-
----
-
-## 🤝 Contribution
-
-Les contributions sont bienvenues ! Pour toute amélioration :
-
-1. **Fork** le dépôt
-2. **Branch** (`git checkout -b feature/AmazingFeature`)
-3. **Commit** vos changements (`git commit -m 'Add some AmazingFeature'`)
-4. **Push** vers la branche (`git push origin feature/AmazingFeature`)
-5. **Ouvrir une Pull Request**
-
----
-
-## 📧 Contact et Support
-
-- **Issues GitHub** : Pour signaler des bugs
-- **Discussions** : Pour des questions générales
-- **Email** : moussaidhicham@example.com
-
----
-
-## 🙏 Remerciements
-
-Un grand merci à :
-- **Pr. Ahmed REGRAGUI** pour l'encadrement et les conseils
-- **L'équipe pédagogique du Master SIE** de l'ENS Meknès
-- **Le personnel du FabLab** pour l'accès aux machines
-- **Nos camarades de promotion** pour l'esprit d'entraide
-
----
-
-**Bonne exploration du monde de la robotique éducative ! 🤖**
-
-*Projet académique - Master SIE 2025-2026*
+*Projet académique - ENS Meknès 2024-2025*
